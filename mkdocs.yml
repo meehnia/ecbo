@@ -1,0 +1,72 @@
+site_name: Nolapse
+site_url: http://localhost:8000/docs
+theme:
+  name: material
+nav:
+  - Home: 'index.md'
+  - Strategy:
+    - 'Strategic Decisions': 'product/strategic_decisions.md'
+  - Business & Product:
+    - 'Go-to-Market Strategy': 'marketing/gtm_pps.md'
+    - 'Competitive Landscape': 'marketing/competitive_landscape.md'
+    - 'Software Requirements Spec': 'product/srs.md'
+    - 'Product Requirements': 'product/prds.md'
+    - 'MVP Definition': 'product/mvp_definition.md'
+    - 'Coverage Model': 'marketing/coverage_model_summary.md'
+    - 'Baseline Concept Pitch': 'product/baseline_concept_pitch.md'
+    - 'Persona Value Props': 'product/persona_value_props.md'
+    - 'Onboarding & Time-to-Value': 'product/onboarding.md'
+    - 'Monetization Model': 'product/monetization_model.md'
+    - 'Roadmap': 'product/roadmap.md'
+    - 'Design Partner Outreach': 'product/design_partner_outreach.md'
+    - 'Case Study Template': 'product/case_study_template.md'
+    - 'Compliance Audit Package': 'product/compliance_audit_package.md'
+    - 'Data Room Index': 'product/data_room_index.md'
+    - 'PACE Delivery Framework': 'product/pace_framework.md'
+  - Architecture & Design:
+    - 'System Architecture': 'product/architecture.md'
+    - 'Architecture Decision Records': 'technical/architecture_decision_records.md'
+    - 'Repository Model': 'technical/hybrid_repository_model_using_git_submodules.md'
+    - 'API Design': 'technical/api_contracts_and_versioning_strategy.md'
+  - Security & Compliance:
+    - 'Threat Modeling (C4 & STRIDE)': 'security/c4-stride.md'
+    - 'Trust Boundaries': 'security/trust_boundary_diagram.md'
+  - Technical Implementation:
+    - 'Technology Stack': 'technical/tech_stack.md'
+    - 'Runner Blueprint': 'technical/runner_implementation_blueprint.md'
+    - 'CI/CD Integrations': 'technical/ci_integrations.md'
+  - Operations:
+    - 'Deployment Variants': 'technical/deployment_variants.md'
+    - 'Cost Model': 'technical/cost_model_per_dv.md'
+    - 'Execution Lifecycle': 'technical/execution_lifecycle_and_state_machine.md'
+    - 'Scheduling Algorithm': 'technical/orchestrator_scheduling_algorithm.md'
+plugins:
+  - search:
+      lang: en
+  - print-site:
+      # Table of contents
+      add_table_of_contents: true
+      toc_title: 'Table of Contents'
+      toc_depth: 6
+      # Content-related
+      add_full_urls: false
+      enumerate_headings: true
+      enumerate_figures: true
+      add_cover_page: true
+      cover_page_template: ""
+      path_to_pdf: ""
+      include_css: true
+      enabled: true
+  - macros:
+      on_undefined: strict
+  - mermaid2:
+      version: 10.0.2
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+
