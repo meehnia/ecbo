@@ -1,5 +1,5 @@
 site_name: Nolapse
-site_url: http://localhost:8000/docs
+site_url: https://ecbo-docs.up.railway.app/
 theme:
   name: material
 nav:
@@ -43,6 +43,10 @@ nav:
 plugins:
   - search:
       lang: en
+  - macros:
+      on_undefined: lax
+  - mermaid2:
+      version: 10.0.2
   - print-site:
       # Table of contents
       add_table_of_contents: true
@@ -57,10 +61,6 @@ plugins:
       path_to_pdf: ""
       include_css: true
       enabled: true
-  - macros:
-      on_undefined: strict
-  - mermaid2:
-      version: 10.0.2
 markdown_extensions:
   - pymdownx.superfences:
       custom_fences:
