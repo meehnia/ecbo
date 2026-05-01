@@ -1,346 +1,391 @@
-# Nolapse – Product Requirement Documents (PRDs)
+# Product Requirements Document v3.0 — AI Agent Governance
 
-This document decomposes the **Nolapse Gold Standard SRS v1.2** into **execution-ready PRDs** that product, engineering, and design teams can directly build against.
-
-Each PRD follows a consistent structure used in mature product organizations.
-
-**Strategic framing:** PRDs 3 (Baseline Management & Git Write-Back) and 4 (Policy Engine & CI Enforcement) are Nolapse's acquisition-differentiated capabilities — the two things none of the four target acquirers have built and cannot easily replicate. All other PRDs are table-stakes infrastructure. Build PRDs 3 and 4 first, with production quality. They are the reason Nolapse is acquirable.
-
-See the [Roadmap](roadmap.md) for phase sequencing and the [Strategic Decisions Log](strategic_decisions.md) for the acquisition rationale behind each prioritization decision.
+**Version:** 3.0  
+**Date:** March 2026  
+**Previous Version:** [v2.0 - Coverage Governance PRD](../archive/v2-coverage-governance/product/prds.md)
 
 ---
 
-# PRD 1: Repository Discovery & Inventory Management
+## Overview
 
-## 1. Problem Statement
-
-Large enterprises lack a real-time, authoritative inventory of repositories, their tech stacks, and test coverage readiness.
-
-## 2. Objective
-
-Provide an automated, continuously updated repository inventory across Git providers.
-
-## 3. Success Metrics
-
-* ≥ 99% repository discovery accuracy
-* Inventory refresh < 15 minutes for 1,000 repos
-
-## 4. Users
-
-* Platform Engineers
-* DevOps Teams
-
-## 5. Functional Requirements
-
-* Authenticate with Git providers (OAuth / PAT)
-* Discover repositories by org, project, or workspace
-* Regex-based include/exclude filters
-* Detect primary language & framework
-
-## 6. Non-Functional Requirements
-
-* Stateless execution
-* Rate-limit aware
-* Idempotent scans
-
-## 7. User Flow
-
-1. Admin configures Git connection
-2. Nolapse scans org/project
-3. Inventory stored & exposed via API
-
-## 8. Out of Scope
-
-* Repo content analysis beyond metadata
+Nolapse v3.0 is a quality infrastructure platform specifically designed for AI agent governance. It solves three growth blockers by automating quality gates, providing audit trails, and enabling agent self-correction.
 
 ---
 
-# PRD 2: Coverage Execution Engine
+## Core Requirement Categories
 
-## 1. Problem Statement
+### 1. Agent-Readable Feedback Loops ⭐ MVP-CRITICAL
 
-Coverage execution across polyglot repos is inconsistent and environment-dependent.
+**Requirement:** Agent PRs that fail coverage baseline must receive structured, machine-readable feedback that agents can parse and act on.
 
-## 2. Objective
+#### 1.1 Structured PR Comments
 
-Execute coverage in isolated, reproducible environments across languages.
+**Requirement:** Failed PRs receive JSON-formatted feedback in GitHub PR comments.
 
-## 3. Success Metrics
+```json
+{
+  "status": "fail",
+  "reason": "coverage_regression",
+  "details": {
+    "current_coverage": "72%",
+    "required_coverage": "80%",
+    "delta": "-8%",
+    "failed_coverage_for": [
+      {
+        "file": "src/handlers/auth.ts",
+        "lines": "42-67",
+        "current_coverage": "60%",
+        "required_coverage": "85%",
+        "missing_coverage": ["error path handling", "edge cases in token validation"],
+        "suggestion": "Add tests for error paths in lines 42-67, specifically token expiration handling"
+      },
+      {
+        "file": "src/utils/logger.ts",
+        "lines": "15-22",
+        "current_coverage": "50%",
+        "required_coverage": "80%",
+        "missing_coverage": ["debug mode tests"],
+        "suggestion": "Add tests for debug mode in lines 15-22"
+      }
+    ]
+  }
+}
+```
 
-* ≥ 95% successful execution rate
-* Deterministic results across runs
+**Acceptance Criteria:**
+- ✅ Failed PRs receive JSON comment within 30 seconds of test run completion
+- ✅ JSON is parseable by standard JSON libraries
+- ✅ Includes file, line numbers, and specific suggestions
+- ✅ Agents can extract and understand the feedback programmatically
 
-## 4. Users
+#### 1.2 Pass/Fail Status Checks
 
-* Developers
-* CI/CD Pipelines
+**Requirement:** GitHub PR checks show pass/fail status with link to detailed feedback.
 
-## 5. Functional Requirements
-
-* Auto-detect language & framework
-* Pull correct runner image
-* Execute tests with coverage
-* Enforce execution timeouts
-
-## 6. Non-Functional Requirements
-
-* Ephemeral execution
-* No code persistence
-* Horizontal scalability
-
-## 7. User Flow
-
-1. CI invokes Nolapse
-2. Runner spins up
-3. Coverage executed
-4. Result returned
-
----
-
-# PRD 3: Baseline Management & Git Write-Back
-
-## 1. Problem Statement
-
-Coverage history is often externalized and lost over time.
-
-## 2. Objective
-
-Store coverage baselines alongside code in Git.
-
-## 3. Success Metrics
-
-* 100% repos with baseline
-* Zero baseline corruption
-
-## 4. Users
-
-* Developers
-* Audit Teams
-
-## 5. Functional Requirements
-
-* Normalize coverage outputs
-* Generate Markdown reports
-* Commit to `.audit/coverage/`
-* Support PR or direct merge
-
-## 6. Non-Functional Requirements
-
-* Deterministic diffs
-* Minimal Git noise
-
-## 7. User Flow
-
-1. Coverage executed
-2. Baseline generated
-3. Commit created via service account
+**Acceptance Criteria:**
+- ✅ GitHub check created on PR with status (pass/fail/pending)
+- ✅ Check failure blocks merge if required
+- ✅ Check success allows auto-merge
+- ✅ Details link to full feedback in PR comment
 
 ---
 
-# PRD 4: Policy Engine & CI Enforcement
+### 2. Agent Token Attribution & Tracking
 
-## 1. Problem Statement
+**Requirement:** Every executed PR must be tagged with the agent/token that created it for audit and analysis purposes.
 
-Coverage thresholds are inconsistently enforced.
+#### 2.1 Token Detection
 
-## 2. Objective
+**Requirement:** Automatically detect and record which AI tool/token generated the PR.
 
-Provide centralized, configurable policy enforcement.
+**Sources:**
+- GitHub Actions environment variable: `AGENT_TOKEN` or `GITHUB_ACTOR`
+- CI context: Detect Cursor, Claude Code, Devin, Copilot from commit metadata
+- Manual override: Allow explicit token assignment via config
 
-## 3. Success Metrics
+**Acceptance Criteria:**
+- ✅ Token detected from GitHub Actions context
+- ✅ Token stored immutably in execution log
+- ✅ Token can be filtered in audit exports
+- ✅ Unknown/missing token handled gracefully (logged as "unknown-agent")
 
-* Policy evaluation < 1s
-* Clear pass/warn/fail outcomes
+#### 2.2 Audit Log Entry Structure
 
-## 4. Users
+**Requirement:** Each execution log entry includes agent token attribution.
 
-* Platform Teams
-* Engineering Managers
+```json
+{
+  "execution_id": "exec-12345",
+  "timestamp": "2026-03-15T14:23:45Z",
+  "pr_number": 4821,
+  "commit_hash": "abc1234def5678",
+  "agent_token": "claude-code-v1",
+  "coverage_delta": {
+    "before": "78%",
+    "after": "82%",
+    "change": "+4%"
+  },
+  "status": "pass",
+  "files_affected": ["src/api/handler.ts", "src/utils/validation.ts"],
+  "baseline_version": "v1.2.3"
+}
+```
 
-## 5. Functional Requirements
-
-* Define policies (strict, warn, advisory)
-* Compare against baseline
-* Fail or warn CI pipeline
-
-## 6. Non-Functional Requirements
-
-* Deterministic evaluation
-* Configurable per org/project
-
-## 7. User Flow
-
-1. Policy defined
-2. CI invokes Nolapse
-3. Policy evaluated
-4. Result returned to CI
-
----
-
-# PRD 5: Central Orchestrator & Bulk Operations
-
-## 1. Problem Statement
-
-Large-scale baseline creation cannot rely solely on CI.
-
-## 2. Objective
-
-Enable scheduled and bulk coverage operations.
-
-## 3. Success Metrics
-
-* 500+ repos per run
-* Partial success tolerance
-
-## 4. Users
-
-* Platform Teams
-
-## 5. Functional Requirements
-
-* Scheduled scans
-* Job queueing
-* Concurrency control
-* Retry handling
-
-## 6. Non-Functional Requirements
-
-* Horizontal scaling
-* Failure isolation
-
-## 7. User Flow
-
-1. Schedule triggered
-2. Jobs queued
-3. Workers execute
-4. Results aggregated
+**Acceptance Criteria:**
+- ✅ Log entry created for each PR execution
+- ✅ Agent token immutably stored
+- ✅ Timestamp accurate to second
+- ✅ Coverage delta calculated and stored
+- ✅ Files affected tracked
 
 ---
 
-# PRD 6: Observability, Audit & Reporting
+### 3. Enterprise Audit Trail & Compliance
 
-## 1. Problem Statement
+**Requirement:** Complete, immutable, Git-native audit trail keyed by agent token for enterprise procurement.
 
-Coverage data is hard to audit and report centrally.
+#### 3.1 Git-Native Audit Logs
 
-## 2. Objective
+**Requirement:** All execution logs stored in Git, not in vendor cloud, to ensure immutability and auditability.
 
-Provide enterprise-grade observability and audit exports.
+**Storage Model:**
+- Logs stored in `.nolapse/executions/` directory in Git
+- One file per PR execution: `executions/pr-4821-exec-12345.json`
+- Logs are versioned with the code
+- Git commit hash proves log authenticity
 
-## 3. Success Metrics
+**Acceptance Criteria:**
+- ✅ Logs stored in Git repository
+- ✅ Logs committed with reproducible hash
+- ✅ Logs cannot be edited retroactively without changing Git history
+- ✅ Logs survive repository clones and backups
 
-* Complete audit export in < 5 min
-* 100% traceability
+#### 3.2 Audit Export
 
-## 4. Users
+**Requirement:** Generate audit-ready exports filtered by agent token type for enterprise security reviews.
 
-* Security Teams
-* Audit Teams
-* Leadership
+**Export Format:** CSV or JSON with columns:
+- timestamp
+- pr_number
+- commit_hash
+- agent_token
+- coverage_before
+- coverage_after
+- coverage_delta
+- pass_fail_status
+- files_affected
 
-## 5. Functional Requirements
-
-* Execution logs
-* Coverage trends
-* CSV / JSON export
-
-## 6. Non-Functional Requirements
-
-* Immutable records
-* Access controlled
-
-## 7. User Flow
-
-1. Audit requested
-2. Data aggregated
-3. Export generated
-
----
-
-# PRD 7: Configuration & Developer Experience
-
-## 1. Problem Statement
-
-Inconsistent configuration leads to adoption friction.
-
-## 2. Objective
-
-Deliver a simple, powerful configuration experience.
-
-## 3. Success Metrics
-
-* < 10 min setup time
-* Low config error rate
-
-## 4. Users
-
-* Developers
-* Platform Teams
-
-## 5. Functional Requirements
-
-* `nolapse.yaml` DSL
-* Sensible defaults
-* Overrides at repo/project/org level
-
-## 6. Non-Functional Requirements
-
-* Backward compatibility
-* Schema validation
-
-## 7. User Flow
-
-1. Add config file
-2. CI invokes Nolapse
-3. Config applied
+**Acceptance Criteria:**
+- ✅ Export generated in <5 seconds for 100+ PRs
+- ✅ Filterable by agent_token (e.g., "claude-code", "copilot")
+- ✅ Filterable by date range
+- ✅ Export includes complete history (no sampling)
+- ✅ Export verifiable by Git hash
 
 ---
 
-# PRD 8: Enterprise Features (Paid)
+### 4. Coverage Baseline Management
 
-## 1. Problem Statement
+**Requirement:** Versioned, enforceable coverage baselines stored in Git alongside code.
 
-Enterprises require governance beyond OSS tooling.
+#### 4.1 Baseline Storage & Versioning
 
-## 2. Objective
+**Requirement:** Coverage baselines stored in `.nolapse/baselines/` directory, versioned with code.
 
-Deliver monetizable enterprise capabilities.
+**Structure:**
+```
+.nolapse/baselines/
+├── baseline.json       # Current baseline for human-written code
+├── agent-baseline.json # Baseline for agent-written code (may be stricter)
+└── history/
+    ├── baseline-v1.0.0.json
+    └── agent-baseline-v1.0.0.json
+```
 
-## 3. Success Metrics
+**Acceptance Criteria:**
+- ✅ Baselines stored in Git
+- ✅ Agent and human baselines configurable separately
+- ✅ Baselines versioned with code
+- ✅ Baseline history queryable
+- ✅ Baseline updates tracked in Git commit history
 
-* Enterprise adoption
-* Contract renewals
+#### 4.2 Baseline Comparison
 
-## 4. Users
+**Requirement:** PR coverage compared against baseline at time of branch creation.
 
-* Enterprises
+**Logic:**
+1. Agent PR branches off from commit `ABC123`
+2. Baseline at `ABC123` is fetched
+3. PR coverage is calculated
+4. Coverage is compared against baseline
+5. Pass/fail determined
 
-## 5. Functional Requirements
-
-* SSO (SAML/OIDC)
-* Org-level policies
-* Dashboards
-* SLA support
-
-## 6. Non-Functional Requirements
-
-* High availability
-* Enterprise security standards
-
-## 7. User Flow
-
-1. Enterprise onboarding
-2. SSO configured
-3. Org-wide policies applied
-
----
-
-## PRD Governance Notes
-
-* Each PRD maps directly to SRS sections
-* PRDs can be converted to epics
-* PRDs are independently buildable
+**Acceptance Criteria:**
+- ✅ Baseline retrieved from commit where branch started
+- ✅ File-level comparison (which files dropped coverage)
+- ✅ Line-level coverage tracked
+- ✅ Comparison result logged with timestamp
+- ✅ False positives prevented (no blame for pre-existing gaps)
 
 ---
 
-**End of PRDs**
+### 5. Incident Root Cause Clarity
+
+**Requirement:** When incidents occur, root cause is identified in minutes via execution logs.
+
+#### 5.1 Execution Query Interface
+
+**Requirement:** CLI tool to query execution logs by PR, commit, agent, or date range.
+
+```bash
+nolapse query --pr 4821
+nolapse query --agent "claude-code" --since "2026-03-01"
+nolapse query --commit abc1234def5678
+nolapse query --coverage-drop --threshold 5%
+```
+
+**Acceptance Criteria:**
+- ✅ Query returns execution record in <1 second
+- ✅ Query includes full context (agent, coverage delta, files)
+- ✅ Query supports multiple filters (AND logic)
+- ✅ Query results include baseline version at time
+
+#### 5.2 Incident Attribution
+
+**Requirement:** When a bug is traced to a specific commit, determine if agent wrote it and what coverage was.
+
+**Output:**
+```
+Commit abc1234def5678:
+  PR: #4821
+  Agent: claude-code-v1
+  Coverage before: 78%
+  Coverage after: 82%
+  Coverage delta: +4%
+  Failed coverage areas: [...]
+  Baseline version: v1.2.3
+  Conclusion: Agent did not introduce coverage regression; baseline is being met
+```
+
+**Acceptance Criteria:**
+- ✅ Attribution determined from execution logs
+- ✅ Coverage baseline at time of execution shown
+- ✅ Clear statement of whether regression occurred
+- ✅ Distinguishes "gap was pre-existing" vs "agent introduced it"
+
+---
+
+### 6. CI/CD Integration
+
+**Requirement:** Seamless integration with existing CI/CD pipelines for GitHub, GitLab, Jenkins, Azure.
+
+#### 6.1 GitHub Actions (v1.0)
+
+**Requirement:** GitHub Action that runs coverage, compares baseline, and posts feedback.
+
+```yaml
+- uses: nolapse-dev/nolapse-action@v1
+  with:
+    token: ${{ secrets.NOLAPSE_TOKEN }}
+    baseline-path: .nolapse/baselines/
+    coverage-format: lcov
+    agent-token: ${{ env.AGENT_TOKEN || 'unknown' }}
+```
+
+**Acceptance Criteria:**
+- ✅ Action runs in <2 minutes for typical repos
+- ✅ Integrates with existing test runners
+- ✅ Posts PR comment with feedback
+- ✅ Sets GitHub check status
+- ✅ Logs execution to Git
+
+#### 6.2 GitLab CI / Jenkins (Phase 2)
+
+**Requirement:** Support for GitLab CI and Jenkins pipelines.
+
+**Acceptance Criteria:**
+- ✅ Equivalent to GitHub Action
+- ✅ Posts feedback to MR/PR comments
+- ✅ Sets pipeline status
+
+---
+
+### 7. Policy Engine
+
+**Requirement:** Configurable threshold rules for pass/fail determination.
+
+#### 7.1 Threshold Configuration
+
+**Requirement:** Support multiple threshold types (absolute, delta, file-specific).
+
+```json
+{
+  "coverage_policy": {
+    "overall": {
+      "minimum": "80%",
+      "type": "absolute"
+    },
+    "agent": {
+      "minimum": "85%",
+      "type": "absolute"
+    },
+    "by_file": {
+      "src/critical/**": "95%",
+      "src/utils/**": "80%",
+      "tests/**": "0%"
+    },
+    "delta": {
+      "max_drop": "5%",
+      "require_improvement": false
+    }
+  }
+}
+```
+
+**Acceptance Criteria:**
+- ✅ Policies stored in `.nolapse/config.json` (in repo)
+- ✅ Policies versioned with code
+- ✅ Absolute thresholds work
+- ✅ Delta thresholds work (no drops >X%)
+- ✅ File-specific thresholds override global
+
+---
+
+## Non-Functional Requirements
+
+### Performance
+
+- Coverage calculation: <30 seconds for typical repo
+- Baseline comparison: <5 seconds
+- PR feedback posted: <1 minute after test completion
+- Audit export: <5 seconds for 1000+ executions
+
+### Reliability
+
+- 99.5% uptime for GitHub Action execution
+- Zero data loss (all logs in Git)
+- Graceful degradation if external services unavailable
+
+### Security
+
+- No plaintext storage of tokens
+- All audit logs immutable (in Git)
+- Audit logs do not contain source code
+- Enterprise audit export support
+
+### Scalability
+
+- Support 50+ agents per repository
+- Support 10K+ executions in history
+- Query performance constant (indexed by commit hash)
+
+---
+
+## Success Metrics
+
+| Metric | Target |
+| --- | --- |
+| Agent self-correction rate | >60% (agents fix feedback and re-run) |
+| Time to incident RCA | <10 minutes (from bug discovery to PR identification) |
+| Enterprise deal close time | <14 days (from security review start) |
+| False positive rate | <2% (baseline falsely fails PR) |
+
+---
+
+## Related Documents
+
+- **[MVP Definition v3.0](mvp-definition.md)** — What ships in Phase 1
+- **[Architecture v3.0](architecture.md)** — System design
+- **[Roadmap v3.0](roadmap.md)** — Implementation phases
+
+---
+
+## Previous Version
+
+**[View v2.0 PRD](../archive/v2-coverage-governance/product/prds.md)**
+
+The v2 PRD focused on general coverage governance. v3.0 PRD focuses on agent-specific features and growth blocker removal.
+
+---
+
+*PRD v3.0 | March 2026*

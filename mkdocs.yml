@@ -20,21 +20,12 @@ nav:
     - 'Coverage Model': 'marketing/coverage_model_summary.md'
   - Architecture & Design:
     - 'System Architecture': 'product/architecture.md'
-    - 'Architecture Decision Records': 'technical/architecture_decision_records.md'
-    - 'Repository Model': 'technical/hybrid_repository_model_using_git_submodules.md'
-    - 'API Design': 'technical/api_contracts_and_versioning_strategy.md'
+    - 'API Design': 'technical/api-design.md'
   - Security & Compliance:
-    - 'Threat Modeling (C4 & STRIDE)': 'security/c4-stride.md'
-    - 'Trust Boundaries': 'security/trust_boundary_diagram.md'
+    - 'STRIDE Threat Analysis': 'security/stride-threat-analysis.md'
   - Technical Implementation:
-    - 'Technology Stack': 'technical/tech_stack.md'
-    - 'Runner Blueprint': 'technical/runner_implementation_blueprint.md'
-    - 'CI/CD Integrations': 'technical/ci_integrations.md'
-  - Operations:
-    - 'Deployment Variants': 'technical/deployment_variants.md'
-    - 'Cost Model': 'technical/cost_model_per_dv.md'
-    - 'Execution Lifecycle': 'technical/execution_lifecycle_and_state_machine.md'
-    - 'Scheduling Algorithm': 'technical/orchestrator_scheduling_algorithm.md'
+    - 'Implementation Blueprint': 'technical/implementation-blueprint.md'
+    - 'Execution Lifecycle': 'technical/execution_lifecycle.md'
   - Archive:
     - 'Previous Versions': 'archive/index.md'
     - 'v2.0 - Coverage Governance': 'archive/v2-coverage-governance/README.md'
