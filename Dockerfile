@@ -1,10 +1,15 @@
 FROM squidfunk/mkdocs-material
-RUN pip install mkdocs-macros-plugin
-RUN pip install mkdocs-glightbox
-RUN pip install mkdocs-print-site-plugin
-RUN pip install pymdown-extensions
-RUN pip install mkdocs-mermaid2-plugin
-RUN pip install mkdocs-toggle-sidebar-plugin
+
+RUN pip install mkdocs-macros-plugin \
+    mkdocs-glightbox \
+    mkdocs-print-site-plugin \
+    pymdown-extensions \
+    mkdocs-mermaid2-plugin \
+    mkdocs-toggle-sidebar-plugin
+
+WORKDIR /docs
+
+CMD ["serve", "--dev-addr=0.0.0.0:8000"]
 
 
 
