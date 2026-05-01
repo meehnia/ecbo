@@ -4,25 +4,20 @@ theme:
   name: material
 nav:
   - Home: 'index.md'
-  - Strategy:
-    - 'Strategic Decisions': 'product/strategic_decisions.md'
-  - Business & Product:
-    - 'Go-to-Market Strategy': 'marketing/gtm_pps.md'
-    - 'Competitive Landscape': 'marketing/competitive_landscape.md'
-    - 'Software Requirements Spec': 'product/srs.md'
+  - Strategic Positioning: 'product/strategic-positioning.md'
+  - Product Strategy (v3):
+    - Overview: 'product/ai-agent-governance/index.md'
+    - 'Blocker 1: Agent Scaling Wall': 'product/ai-agent-governance/agent-scaling-wall.md'
+    - 'Blocker 2: Enterprise Deal Stall': 'product/ai-agent-governance/enterprise-ai-governance.md'
+    - 'Blocker 3: Production Incident Risk': 'product/ai-agent-governance/production-risk-agents.md'
+  - Product Development:
+    - 'MVP Definition': 'product/mvp-definition.md'
     - 'Product Requirements': 'product/prds.md'
-    - 'MVP Definition': 'product/mvp_definition.md'
-    - 'Coverage Model': 'marketing/coverage_model_summary.md'
-    - 'Baseline Concept Pitch': 'product/baseline_concept_pitch.md'
-    - 'Persona Value Props': 'product/persona_value_props.md'
-    - 'Onboarding & Time-to-Value': 'product/onboarding.md'
-    - 'Monetization Model': 'product/monetization_model.md'
     - 'Roadmap': 'product/roadmap.md'
-    - 'Design Partner Outreach': 'product/design_partner_outreach.md'
-    - 'Case Study Template': 'product/case_study_template.md'
-    - 'Compliance Audit Package': 'product/compliance_audit_package.md'
-    - 'Data Room Index': 'product/data_room_index.md'
-    - 'PACE Delivery Framework': 'product/pace_framework.md'
+  - Go-to-Market:
+    - 'GTM Strategy': 'marketing/gtm-pps.md'
+    - 'Competitive Landscape': 'marketing/competitive-landscape.md'
+    - 'Coverage Model': 'marketing/coverage_model_summary.md'
   - Architecture & Design:
     - 'System Architecture': 'product/architecture.md'
     - 'Architecture Decision Records': 'technical/architecture_decision_records.md'
@@ -40,6 +35,9 @@ nav:
     - 'Cost Model': 'technical/cost_model_per_dv.md'
     - 'Execution Lifecycle': 'technical/execution_lifecycle_and_state_machine.md'
     - 'Scheduling Algorithm': 'technical/orchestrator_scheduling_algorithm.md'
+  - Archive:
+    - 'Previous Versions': 'archive/index.md'
+    - 'v2.0 - Coverage Governance': 'archive/v2-coverage-governance/README.md'
 plugins:
   - search:
       lang: en

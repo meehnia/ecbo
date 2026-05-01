@@ -1,163 +1,212 @@
-# Roadmap Timelines & Metrics
+# Roadmap v3.0 — AI Agent Governance
 
-**Status:** Complete — Gap #6 of 6
-**Last Updated:** March 2026
-
----
-
-## Roadmap Philosophy
-
-The roadmap has two audiences and two timelines running in parallel:
-
-- **Product timeline** — what gets built, in what order, validated against enterprise customer needs
-- **Acquisition timeline** — what traction gets established, in what order, visible to each of the four target acquirers
-
-Phase boundaries are defined by customer outcomes and market signals, not feature completeness. A phase ends when the go/no-go criteria are met — not when the feature list is exhausted.
+**Version:** 3.0  
+**Date:** March 2026  
+**Previous Version:** [v2.0 - Coverage Governance Roadmap](../archive/v2-coverage-governance/product/roadmap.md)
 
 ---
 
-## Phase 1 — Core Platform (Months 0–12)
+## Overview
 
-**Theme:** Build a narrow, trustworthy product and prove it works in real CI pipelines at real companies.
+Nolapse roadmap is organized around removing the three growth blockers:
 
-**Scope:**
+1. **Agent Scaling Wall** — Requires agent feedback loops
+2. **Enterprise Deal Stall** — Requires audit trails and compliance
+3. **Production Incident Risk** — Requires execution logging and root cause clarity
 
-- Coverage execution (Node.js / Jest initially; Python and Go added before Phase 1 close)
-- Git-native baseline generation and write-back
-- Policy engine (strict mode only)
-- GitHub Actions integration (first-class)
-- GitLab CI component (published by Month 6)
-- CLI (`nolapse run`) for manual and non-standard CI use
-- Audit export (CSV / JSON)
-- Self-hosted deployment (Docker / Kubernetes)
-
-**Target Customer:** 3–5 enterprise design partners. Hands-on onboarding. Direct Slack access to founders.
-
-**Success Metrics:**
-
-| Metric | Target |
-| --- | --- |
-| Design partner orgs live on Nolapse | 3–5 |
-| Repos governed across all design partners | 200+ |
-| PR enforcement uptime | ≥ 99% |
-| Developer CI signal dispute rate | < 10% |
-| Time to first baseline (new repo) | < 30 minutes |
-
-**Go/No-Go Criteria to enter Phase 2:**
-
-- At least 3 paying design partner customers
-- At least one case study published (customer quoted, metrics documented)
-- GitHub Actions Marketplace listing live
-- GitLab CI component catalog listing live
-- Developer signal dispute rate below 10% (the enforcement is trusted)
-- Zero critical security incidents
-
-**Acquisition signal at Phase 1 close:**
-Each of the four acquirers can see Nolapse running in their ecosystem. The GitHub Marketplace listing is visible to GitHub. The GitLab component is visible to GitLab. The Codecov co-use pattern is documented in at least one case study. Sentry/Codecov and SonarSource are watching.
+Each phase is designed to progressively unlock the ability to sell into these problems.
 
 ---
 
-## Phase 2 — Governance & Enterprise Traction (Months 9–24)
+## Phase 1: Datum (v1.0) — Core Blocker Removal
 
-**Theme:** Add the enterprise governance features that turn design partners into a full customer base and make Nolapse visible as a strategic asset to potential acquirers.
+**Timeline:** Q2 2026  
+**Goal:** MVP is ready. All three blockers are solvable (though not fully optimized).
 
-**Scope:**
+### What Ships
 
-- Org-wide coverage compliance dashboard
-- Multi-repo orchestration at scale (500+ repos in a single scheduled run)
-- Advanced policy engine (branch-aware policies, file-level thresholds, warn mode)
-- SSO (SAML / OIDC)
-- Compliance audit packages (SOC 2, ISO 27001 templates)
-- Full polyglot support (Java, .NET, Ruby added)
-- Multi-tenant SaaS deployment
-- Expanded CI support (Jenkins, CircleCI, Azure DevOps, Argo/Tekton)
-- Codecov and SonarQube data import integrations
+**Agent-Readable Feedback Loop** ✨
+- Structured JSON PR comments
+- Specific file/line information
+- Agent can parse and self-correct
 
-**Note:** Phase 2 starts at Month 9 — overlapping with Phase 1's final quarter. The overlap is intentional: design partner feedback in Phase 1 directly informs Phase 2 scope.
+**Enterprise Audit Trail**
+- Execution logs in Git (immutable)
+- Agent token tracking
+- Audit export for procurement
 
-**Target Customer:** 10–25 enterprise accounts. Self-serve Team tier open. Inbound from marketplace listings.
+**Coverage Baseline Enforcement**
+- Pass/fail on agent PRs
+- Block regressions before merge
+- Support agent-specific baselines
 
-**Success Metrics:**
+**Incident Clarity**
+- Query logs by PR/commit
+- Identify which agent wrote code
+- Coverage delta tracking
 
-| Metric | Target |
-| --- | --- |
-| Total paying enterprise accounts | 10–25 |
-| ARR | $500K–$1.2M |
-| Repos governed across all customers | 5,000+ |
-| Case studies published | 3+ |
-| NPS from Platform Team personas | ≥ 50 |
-| Ecosystem integration listings (all four partners) | 4 / 4 |
+### Blocker Impact
 
-**Go/No-Go Criteria to enter Phase 3:**
-
-- ARR exceeds $1M
-- At least one customer in each of the four acquirer ecosystems (a GitHub-native customer, a GitLab-native customer, a Codecov co-use customer, a SonarQube co-use customer)
-- At least one regulated-industry SOC 2 use case documented
-- All four ecosystem marketplace listings live and actively driving inbound
-- No single acquirer relationship has been exclusively favored (Switzerland Model intact)
-
-**Acquisition signal at Phase 2 close:**
-This is the competitive urgency trigger. Nolapse has enterprise logos in every acquirer's ecosystem. Each acquirer can see that their customers need Nolapse — and that a competitor could acquire it first. The asymmetry is deliberate. Phase 2 ends when acquisition urgency is real, not manufactured.
-
----
-
-## Phase 3 — Intelligence, Insights, and Acquisition Process (Months 21–36)
-
-**Theme:** Add the product capabilities that make Nolapse an intelligence layer, not just a compliance enforcer — while running the acquisition process in parallel.
-
-**Scope:**
-
-- Coverage trend analytics and regression prediction
-- AI-assisted coverage gap identification (which files are highest risk given recent change velocity)
-- Cross-org benchmarking (anonymized coverage percentiles by industry / language)
-- API-first architecture for acquirer integration surface
-- Acquisition data room preparation (clean financials, customer references, technical documentation)
-
-**Note:** Phase 3 product work is partly acquisition-preparation work. The API-first refactor makes Nolapse easier to integrate into an acquirer's product post-close. The analytics features increase the acquisition multiple by demonstrating intelligence-layer potential beyond compliance.
-
-**Target Customer:** 50+ enterprise accounts. Expansion within existing accounts. Inbound-driven growth.
-
-**Success Metrics:**
-
-| Metric | Target |
-| --- | --- |
-| ARR | $2.5M–$3.5M |
-| Enterprise accounts | 40–60 |
-| Gross margin | ≥ 80% |
-| NRR (Net Revenue Retention) | ≥ 120% |
-| Acquirers in active conversation | 2–4 |
-
-**Go/No-Go Criteria to run acquisition process:**
-
-- ARR ≥ $2.5M with ≥ 80% gross margin
-- NRR ≥ 120% (existing customers are expanding, not churning)
-- At least 2 acquirers have conducted technical due diligence
-- Data room is complete and reviewed by legal/financial advisors
-- Founder-led customer references available for all four acquirer conversations
-
-**Acquisition process:**
-Run a competitive process with all interested parties simultaneously. Nolapse controls the timeline. The acquirer who moves fastest and offers the best integration narrative wins. The others lose their path to coverage governance permanently.
-
----
-
-## Phase Summary
-
-| Phase | Theme | Duration | ARR Target | Key Go/No-Go |
-| --- | --- | --- | --- | --- |
-| Phase 1 | Core platform | Months 0–12 | First revenue | 3 paying design partners, trusted signal |
-| Phase 2 | Governance & traction | Months 9–24 | $500K–$1.2M | $1M ARR, all 4 ecosystem listings live |
-| Phase 3 | Intelligence & acquisition | Months 21–36 | $2.5M–$3.5M | $2.5M ARR, 2+ acquirers in diligence |
-
----
-
-## Acquisition Timeline Alignment
-
-| Roadmap Phase | Acquisition Strategy Phase | Signal to Acquirers |
+| Blocker | Status | Impact |
 | --- | --- | --- |
-| Phase 1 complete | Phase 1 (0–18 months): Be Everyone's Best Friend | Integrations live in all four ecosystems; product is trustworthy |
-| Phase 2 complete | Phase 2 (12–24 months): Create Competitive Anxiety | Enterprise logos in every ecosystem; each acquirer sees their customers using Nolapse |
-| Phase 3 entry | Phase 3 (24–36 months): Run Acquisition Process | $2.5M ARR, strong NRR, multiple acquirers in conversation; Nolapse controls the outcome |
+| Agent Scaling Wall | **Solvable** | Automated gates + feedback loops enable agents to self-correct |
+| Enterprise Deal Stall | **Solvable** | Audit export answers procurement questions |
+| Incident Risk | **Preventable** | Root cause identified in minutes, not weeks |
+
+### Success Metrics
+
+- ✅ Demo: Agent PR fails → gets feedback → self-corrects → passes (3 minutes)
+- ✅ Audit export: Complete log of 100+ agent PRs generated in seconds
+- ✅ Root cause query: Identify problematic PR in <5 minutes
+- ✅ Sales: Able to close deals with teams running 5+ agents
 
 ---
 
-See the [Strategic Decisions Log](strategic_decisions.md) for the full acquisition strategy, the [Monetization Model](monetization_model.md) for ARR assumptions, and the [MVP Definition](mvp_definition.md) for Phase 1 delivery scope.
+## Phase 2: Hephaestus (v1.1) — Optimization & Scale
+
+**Timeline:** Q3 2026  
+**Goal:** Optimize for 50+ agents. Add dashboard and visualization.
+
+### What Ships
+
+**Dashboard UI**
+- Coverage trends over time
+- Agent performance comparison
+- Incident timeline and trends
+- Quick query interface for logs
+
+**Advanced Policy Engine**
+- File-specific thresholds
+- Trend-based enforcement (no sudden drops)
+- Team-specific policies
+- Compliance rule templates
+
+**CI/CD Expansion**
+- GitLab CI integration
+- Jenkins integration
+- Azure DevOps integration
+- Webhook-based execution model
+
+**Performance Optimizations**
+- Coverage calculation caching
+- Baseline comparison speedup (sub-second)
+- Log query optimization (>10K PRs)
+
+### Blocker Impact
+
+| Blocker | Status | Impact |
+| --- | --- | --- |
+| Agent Scaling Wall | **Optimized** | Can run 50+ agents with <5% overhead |
+| Enterprise Deal Stall | **Streamlined** | Dashboard accelerates audit reviews |
+| Incident Risk | **Minimized** | Trend detection catches regression patterns early |
+
+---
+
+## Phase 3: Prometheus (v2.0) — Intelligence & Automation
+
+**Timeline:** Q4 2026  
+**Goal:** Intelligent baseline management. Multi-org support.
+
+### What Ships
+
+**Intelligent Baseline Evolution**
+- ML-based baseline recommendation (when to update)
+- Anomaly detection (unusual coverage patterns)
+- Baseline drift alerts
+- Historical baseline versions
+
+**Team & Org Multi-Tenancy**
+- SAAS-ready architecture
+- Team-level policies and baselines
+- Cross-team reporting
+- Org-wide compliance dashboard
+
+**Advanced Feedback**
+- Test suggestion engine
+- Code path analysis
+- Risk-based feedback (high-risk areas get stricter thresholds)
+
+**Integration Ecosystem**
+- Datadog / New Relic export
+- Slack notifications
+- Custom webhooks
+- OpenTelemetry instrumentation
+
+### Blocker Impact
+
+| Blocker | Status | Impact |
+| --- | --- | --- |
+| Agent Scaling Wall | **Mature** | Autonomous baseline management reduces operational overhead |
+| Enterprise Deal Stall | **Enterprise-Ready** | Multi-org compliance, audit retention, role-based access |
+| Incident Risk | **Predictive** | Anomaly detection prevents incidents before they happen |
+
+---
+
+## Success Metrics by Phase
+
+### Phase 1 (Datum)
+
+- [ ] Blocker 1: Agent can self-correct in feedback loop
+- [ ] Blocker 2: Enterprise audit export is complete and trustworthy
+- [ ] Blocker 3: Incident root cause identified in <10 minutes
+- [ ] 5+ design partners using and validating
+- [ ] First enterprise deal closes
+
+### Phase 2 (Hephaestus)
+
+- [ ] Can scale to 50+ agents without incident
+- [ ] Dashboard accelerates enterprise security reviews
+- [ ] 20+ customers
+- [ ] Expanded CI/CD coverage (GitLab, Jenkins)
+- [ ] Net new enterprise logos from improved UX
+
+### Phase 3 (Prometheus)
+
+- [ ] 50+ customers
+- [ ] Multi-org SAAS-ready
+- [ ] Predictive incident prevention demonstrated
+- [ ] Integration marketplace live
+
+---
+
+## Key Decision: Agent Feedback in v1.0
+
+**Decision:** Agent-readable PR feedback is **Phase 1**, not Phase 2.
+
+**Rationale:**
+- Without feedback, agents cannot self-correct
+- With feedback, Blocker 1 is demonstrably solved in a 3-minute demo
+- This is the difference between "80% complete solution" and "100% complete solution"
+- Sales impact is immediate and measurable
+
+---
+
+## Competitive Timing
+
+The window to own agent governance is **Q2–Q3 2026**. By Q4:
+
+- GitHub Copilot may have governance features
+- Devin may integrate baseline checks
+- Enterprise tooling vendors will build this
+
+**Being first with a complete solution (v1.0 Datum) is critical.**
+
+---
+
+## Related Documents
+
+- **[MVP Definition v3.0](mvp-definition.md)** — What Phase 1 includes
+- **[Strategic Positioning v3.0](strategic-positioning.md)** — Why these features solve blockers
+- **[Product Requirements](prds.md)** — Detailed specs for Phase 1
+
+---
+
+## Previous Version
+
+**[View v2.0 Roadmap](../archive/v2-coverage-governance/product/roadmap.md)**
+
+The v2 roadmap was designed around progressive coverage governance features. v3.0 roadmap is organized around blocker removal and competitive timing.
+
+---
+
+*Roadmap v3.0 | March 2026*
