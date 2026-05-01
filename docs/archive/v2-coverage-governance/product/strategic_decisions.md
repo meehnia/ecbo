@@ -1,3 +1,8 @@
+> **ARCHIVED** — This is v2.0 (Coverage Governance framing)
+> **Current version:** [v3.0 - AI Agent Governance](../../product/strategic-positioning.md)
+
+---
+
 # Strategic Decisions Log
 
 **Version:** 1.0 | **Last Updated:** March 2026 | **Author:** Vipul Meehnia

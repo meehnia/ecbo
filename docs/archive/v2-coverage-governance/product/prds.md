@@ -1,3 +1,8 @@
+> **ARCHIVED** — This is v2.0 (Coverage Governance framing)
+> **Current version:** [v3.0 - AI Agent Governance](../../product/prds.md)
+
+---
+
 # Nolapse – Product Requirement Documents (PRDs)
 
 This document decomposes the **Nolapse Gold Standard SRS v1.2** into **execution-ready PRDs** that product, engineering, and design teams can directly build against.

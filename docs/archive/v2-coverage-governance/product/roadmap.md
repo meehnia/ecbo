@@ -1,3 +1,8 @@
+> **ARCHIVED** — This is v2.0 (Coverage Governance framing)
+> **Current version:** [v3.0 - AI Agent Governance](../../product/roadmap.md)
+
+---
+
 # Roadmap Timelines & Metrics
 
 **Status:** Complete — Gap #6 of 6

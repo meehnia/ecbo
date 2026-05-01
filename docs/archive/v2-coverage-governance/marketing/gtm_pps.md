@@ -1,3 +1,8 @@
+> **ARCHIVED** — This is v2.0 (Coverage Governance framing)
+> **Current version:** [v3.0 - AI Agent Governance](../../marketing/gtm-pps.md)
+
+---
+
 # Go-to-Market & Product Positioning Strategy
 
 **Last Updated:** March 2026

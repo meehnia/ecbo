@@ -1,3 +1,8 @@
+> **ARCHIVED** — This is v2.0 (Coverage Governance framing)
+> **Current version:** [v3.0 - AI Agent Governance](../../product/mvp-definition.md)
+
+---
+
 # Nolapse – MVP Definition
 
 ## CPTO Perspective: What We Ship First (and What We Explicitly Do NOT)
