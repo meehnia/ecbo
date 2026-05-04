@@ -269,7 +269,7 @@ Commit abc1234def5678:
     token: ${{ secrets.NOLAPSE_TOKEN }}
     baseline-path: .nolapse/baselines/
     coverage-format: lcov
-    agent-token: ${{ env.AGENT_TOKEN || 'unknown' }}
+    agent-token: ${{ secrets.AGENT_TOKEN }}
 ```
 
 **Acceptance Criteria:**
