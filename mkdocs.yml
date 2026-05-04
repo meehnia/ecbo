@@ -2,7 +2,6 @@ site_name: Nolapse
 site_url: https://ecbo-docs.up.railway.app/
 theme:
   name: material
-  edit_uri: ""
 nav:
   - Home: 'index.md'
   - Strategic Positioning: 'product/strategic-positioning.md'
