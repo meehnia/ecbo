@@ -22,7 +22,7 @@ nav:
     - 'PACE Framework': 'product/pace_framework.md'
   - Go-to-Market:
     - 'GTM Strategy': 'marketing/gtm-pps.md'
-    - 'Competitive Landscape': 'marketing/competitive-landscape.md'
+    - 'Competitive Landscape': 'marketing/competitive_landscape.md'
     - 'Coverage Model': 'marketing/coverage_model_summary.md'
     - 'Persona & Value Props': 'product/persona_value_props.md'
     - 'Monetization Model': 'product/monetization_model.md'
